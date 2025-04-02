@@ -1,3 +1,7 @@
+/*
+ * TC: O(n) for move operation where n is the snake's length
+ * SC: O(n) for the snake's body
+ */
 import java.util.*;
 
 record Coordinates(int row, int column) {}
