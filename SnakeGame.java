@@ -1,19 +1,19 @@
 import java.util.*;
 
-record Pair<K, V>(K key, V value) {}
+record Coordinates(int row, int column) {}
 
 public class SnakeGame {
 
     /**
      * Direction representing U, D, L, R respectively
      */
-    static final List<Pair<Integer, Integer>> dirs = Arrays.asList(new Pair<>(-1, 0), new Pair<>(1, 0), new Pair<>(0, -1), new Pair<>(0, 1));
+    static final List<Coordinates> dirs = Arrays.asList(new Coordinates(-1, 0), new Coordinates(1, 0), new Coordinates(0, -1), new Coordinates(0, 1));
 
     // Represents the snake's body
-    Deque<Pair<Integer, Integer>> snake;
+    Deque<Coordinates> snake;
 
     // position of snake's head
-    Pair<Integer, Integer> head;
+    Coordinates head;
 
     // given information
     int width, height;
@@ -24,7 +24,7 @@ public class SnakeGame {
 
     public SnakeGame(int width, int height, int[][] food) {
         snake = new ArrayDeque<>();
-        head = new Pair<>(0, 0);
+        head = new Coordinates(0, 0);
         snake.add(head);
         this.width = width;
         this.height = height;
@@ -33,10 +33,10 @@ public class SnakeGame {
     }
 
     public int move(String direction) {
-        Pair<Integer, Integer> dir = getDirection(direction);
+        Coordinates dir = getDirection(direction);
         // get the new coordinates for head
-        int nr = head.key() + dir.key();
-        int nc = head.value() + dir.value();
+        int nr = head.row() + dir.row();
+        int nc = head.column() + dir.column();
 
         // check if out of bounds
         if (outOfBounds(nr, nc)) return -1;
@@ -53,7 +53,7 @@ public class SnakeGame {
         if (collision(nr, nc)) return -1;
 
         // update the head and add it to the queue
-        head = new Pair<>(nr, nc);
+        head = new Coordinates(nr, nc);
         snake.addLast(head);
 
         // return updated food index = score
@@ -69,8 +69,8 @@ public class SnakeGame {
      * @return if colliding
      */
     boolean collision(int r, int c) {
-        for (Pair<Integer, Integer> pair : snake) {
-            if (r == pair.key() && c == pair.value()) {
+        for (Coordinates coordinates : snake) {
+            if (r == coordinates.row() && c == coordinates.column()) {
                 return true;
             }
         }
@@ -93,9 +93,9 @@ public class SnakeGame {
      * get direction corresponding to the given string
      *
      * @param direction String dir (U, D, L, R)
-     * @return corresponding coordinate Pair
+     * @return corresponding Coordinate
      */
-    Pair<Integer, Integer> getDirection(String direction) {
+    Coordinates getDirection(String direction) {
         int dirIndex = switch (direction) {
             case "U" -> 0;
             case "D" -> 1;

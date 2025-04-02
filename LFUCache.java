@@ -40,7 +40,7 @@ public class LFUCache {
         if(!valueStore.containsKey(key)) return -1;
         // get the frequency of the key
         int frequency = frequencyMap.get(key);
-        // the the keys at this frequency
+        // get the keys at this frequency
         Set<Integer> keys = frequencyKeyMap.get(frequency);
         // remove the key from the current frequency
         if(keys.contains(key)) {
